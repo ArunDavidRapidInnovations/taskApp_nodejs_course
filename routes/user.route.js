@@ -1,16 +1,21 @@
 const express = require('express');
-const router = new express.Router();
 const chalk = require('chalk');
+const multer = require('multer');
+const sharp = require('sharp');
+
 const User = require('../models/user.model');
 const auth = require('../middleware/auth');
+const {
+  sendWelcomeEmail,
+  sendCancellationEmail,
+} = require('../emails/account');
 
-const multer = require('multer');
-
-const sharp = require('sharp');
+const router = new express.Router();
 
 router.post('/users', async (req, res) => {
   try {
     const user = await User.create(req.body);
+    sendWelcomeEmail(user.email, user.name);
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token: token });
   } catch (error) {
@@ -90,6 +95,7 @@ router.patch('/users/me', auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
   try {
     await req.user.remove();
+    sendCancellationEmail(req.user.email, req.user.name);
     res.send(req.user);
   } catch (error) {
     console.log(chalk.red(error.message));

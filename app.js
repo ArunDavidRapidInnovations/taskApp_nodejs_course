@@ -1,3 +1,5 @@
+const result = require('dotenv').config();
+
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const express = require('express');
@@ -8,7 +10,7 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
+mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
