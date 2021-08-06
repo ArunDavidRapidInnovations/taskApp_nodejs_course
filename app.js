@@ -1,7 +1,4 @@
-const result = require('dotenv').config();
-
 const mongoose = require('mongoose');
-const chalk = require('chalk');
 const express = require('express');
 const userRouter = require('./routes/user.route');
 const taskRouter = require('./routes/task.route');
@@ -25,6 +22,4 @@ app.get('/', (req, res) => {
 app.use(userRouter);
 app.use(taskRouter);
 
-app.listen(port, () => {
-  console.log(chalk.green.inverse('Server Running on port ' + port));
-});
+module.exports = app;

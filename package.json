@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "test": "env-cmd -f ./config/test.env jest --runInBand ----detectOpenHandles",
+    "dev": "env-cmd -f ./config/dev.env nodemon ./index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,10 @@
     "multer": "^1.4.2",
     "sharp": "^0.28.3",
     "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "jest": "^27.0.6",
+    "supertest": "^6.1.4"
   }
 }
