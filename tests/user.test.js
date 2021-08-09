@@ -15,12 +15,12 @@ test('Should Sign Up a new user', async () => {
       email: 'davidreddy293@gmail.com',
       password: 'testPass',
     })
-    .expect(201);
+    .expect(200);
 
-  const user = await User.findById(response.body.user._id);
+  const user = await User.findById(response.body.data.user._id);
   expect(user).not.toBeNull();
 
-  expect(response.body).toMatchObject({
+  expect(response.body.data).toMatchObject({
     user: {
       name: 'Arun David',
       email: 'davidreddy293@gmail.com',
@@ -45,7 +45,7 @@ test('Should Login Existing User', async () => {
     .expect(200);
 
   const user = await User.findById(userOneId);
-  expect(response.body).toMatchObject({
+  expect(response.body.data).toMatchObject({
     token: user.tokens[1].token,
   });
 });
