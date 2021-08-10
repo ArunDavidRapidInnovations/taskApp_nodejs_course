@@ -3,60 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Task = require('./task.model');
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      lowercase: true,
-      trim: true,
-      unique: true,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error('Email is not Valid');
-        }
-      },
-    },
-    age: {
-      type: Number,
-      default: 0,
-      validate(value) {
-        if (value < 0) {
-          throw new Error('Age cannot be a negative number');
-        }
-      },
-    },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-      validate(value) {
-        if (value.length < 6 || value.toLowerCase().includes('password')) {
-          throw new Error('Invalid password');
-        }
-      },
-    },
-    tokens: [
-      {
-        token: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
-    avatar: {
-      type: Buffer,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+const { userSchema } = require('./schema');
 
 userSchema.virtual('tasks', {
   ref: 'Task',
